@@ -1,14 +1,14 @@
 <template>
-  <div class="p-6 space-y-6">
+  <div class="p-6 space-y-6 bg-gray-50 dark:bg-dark-900 min-h-screen transition-colors duration-300">
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-gray-900">My Tasks</h1>
-        <p class="text-gray-600 mt-1">Manage and organize your tasks</p>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">My Tasks</h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">Manage and organize your tasks</p>
       </div>
       <button 
         @click="showCreateModal = true"
-        class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
+        class="inline-flex items-center px-4 py-2 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors shadow-sm"
       >
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -21,16 +21,16 @@
     <TaskFilters @filter-change="handleFilterChange" />
 
     <!-- Tasks List -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-      <div class="px-6 py-4 border-b border-gray-100">
+    <div class="bg-white dark:bg-dark-800 rounded-xl shadow-sm border border-gray-100 dark:border-dark-700 transition-colors duration-300">
+      <div class="px-6 py-4 border-b border-gray-100 dark:border-dark-700">
         <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold text-gray-900">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
             Tasks ({{ tasksStore.filteredTasks.length }})
           </h2>
           <button 
             @click="tasksStore.clearFilters()"
             v-if="hasActiveFilters"
-            class="text-sm text-indigo-600 hover:text-indigo-700"
+            class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
           >
             Clear Filters
           </button>
@@ -40,25 +40,25 @@
       <div class="p-6">
         <!-- Loading State -->
         <div v-if="tasksStore.loading" class="text-center py-8">
-          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
-          <p class="text-gray-500 mt-2">Loading tasks...</p>
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 dark:border-indigo-400 mx-auto"></div>
+          <p class="text-gray-500 dark:text-gray-400 mt-2">Loading tasks...</p>
         </div>
 
         <!-- Empty State -->
         <div v-else-if="tasksStore.filteredTasks.length === 0" class="text-center py-8">
-          <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
           </svg>
-          <h3 class="text-lg font-medium text-gray-900 mb-2">
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
             {{ hasActiveFilters ? 'No tasks match your filters' : 'No tasks yet' }}
           </h3>
-          <p class="text-gray-500 mb-4">
+          <p class="text-gray-500 dark:text-gray-400 mb-4">
             {{ hasActiveFilters ? 'Try adjusting your search criteria' : 'Create your first task to get started!' }}
           </p>
           <button 
             v-if="!hasActiveFilters"
             @click="showCreateModal = true"
-            class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            class="inline-flex items-center px-4 py-2 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors"
           >
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>

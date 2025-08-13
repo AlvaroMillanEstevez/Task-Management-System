@@ -1,17 +1,40 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-dark-900 dark:to-dark-800 transition-colors duration-300">
+    <div class="max-w-md w-full space-y-8 bg-white dark:bg-dark-800 p-8 rounded-xl shadow-lg border border-gray-200 dark:border-dark-700">
       <!-- Header -->
       <div class="text-center">
-        <h2 class="text-3xl font-bold text-gray-900">Welcome back</h2>
-        <p class="mt-2 text-gray-600">Sign in to your account</p>
+        <div class="flex justify-center mb-4">
+          <div class="w-12 h-12 bg-indigo-600 dark:bg-indigo-500 rounded-xl flex items-center justify-center">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+          </div>
+        </div>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Welcome back</h2>
+        <p class="mt-2 text-gray-600 dark:text-gray-400">Sign in to your account</p>
+      </div>
+      
+      <!-- Theme Toggle (Mobile) -->
+      <div class="flex justify-center">
+        <button 
+          @click="themeStore.toggleTheme()"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
+          :title="themeStore.isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+        >
+          <svg v-if="themeStore.isDark" class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+          <svg v-else class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </button>
       </div>
       
       <!-- Form -->
       <form @submit.prevent="handleLogin" class="space-y-6">
         <!-- Email -->
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Email address
           </label>
           <input
@@ -19,14 +42,14 @@
             v-model="form.email"
             type="email"
             required
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
             placeholder="Enter your email"
           />
         </div>
 
         <!-- Password -->
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+          <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Password
           </label>
           <input
@@ -34,13 +57,13 @@
             v-model="form.password"
             type="password"
             required
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
             placeholder="Enter your password"
           />
         </div>
 
         <!-- Error Message -->
-        <div v-if="authStore.error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+        <div v-if="authStore.error" class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg">
           {{ authStore.error }}
         </div>
 
@@ -48,7 +71,7 @@
         <button
           type="submit"
           :disabled="authStore.loading"
-          class="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          class="w-full bg-indigo-600 dark:bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <span v-if="!authStore.loading">Sign in</span>
           <span v-else class="flex items-center justify-center">
@@ -62,8 +85,8 @@
 
         <!-- Register Link -->
         <div class="text-center">
-          <span class="text-gray-600">Don't have an account? </span>
-          <router-link to="/register" class="text-indigo-600 hover:text-indigo-700 font-medium">
+          <span class="text-gray-600 dark:text-gray-400">Don't have an account? </span>
+          <router-link to="/register" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium">
             Sign up
           </router-link>
         </div>
@@ -76,9 +99,11 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useThemeStore } from '@/stores/theme'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const themeStore = useThemeStore()
 
 const form = ref({
   email: '',
